@@ -13,3 +13,12 @@ __v0_jsx-dev-runtime.ts
 node_modules
 .next/
 .DS_Store
+
+# Nuxt
+.nuxt/
+.output/
+.data/
+dist/
+
+vandal-clip-1.mp4
+vandal-clip-2.mp4

@@ -1,6 +1,6 @@
 /* =============================================================
    Personal portfolio — inspired by objectanimal.com/talent
-   Design tokens
+   Ported to Nuxt/Vue. Design tokens.
    ============================================================= */
 :root {
   /* Colour tokens mirrored from objectanimal.com (oklch surface scale) */
@@ -12,11 +12,14 @@
   --line: oklch(0.4 0.01 264 / 0.12); /* thin surface border */
   --pill-bg: oklch(0.9696 0 0 / 0.8); /* frosted menu box */
   --pill-border: oklch(0.4 0.01 264 / 0.12);
+  --menu-item-hover: oklch(0.4 0 0 / 0.12); /* ghost item hover */
   --radius: 0.5rem;
   --gap: 0.5rem; /* media gutter (reference px-2) */
   --inset: 1rem; /* floating-element inset */
   --maxw: 1280px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --container-4xl: 56rem;
+  
 }
 
 html.dark {
@@ -28,6 +31,7 @@ html.dark {
   --line: oklch(1 0 0 / 0.12);
   --pill-bg: oklch(0.22 0 0 / 0.8);
   --pill-border: oklch(1 0 0 / 0.12);
+  --menu-item-hover: oklch(1 0 0 / 0.12);
 }
 
 * {
@@ -48,7 +52,6 @@ body {
   line-height: 1.5;
   background-color: var(--surface);
   color: var(--ink);
-  text-transform: lowercase; /* reference sets --app-text-case: lowercase */
   transition: background-color 0.5s var(--ease), color 0.5s var(--ease);
   overflow-x: hidden;
 }
@@ -59,47 +62,106 @@ a {
 }
 
 /* =============================================================
-   Fixed frosted-glass name pill (top-left)
+   Fixed frosted-glass menu box (top-left) — MagicMenu
    ============================================================= */
-/* =============================================================
-   Fixed frosted-glass menu box (top-left) — reference .m-menu-box
-   ============================================================= */
-.name-pill {
+.app-menu {
   position: fixed;
   top: var(--inset);
   left: var(--inset);
   z-index: 50;
-  display: block;
+}
+.app-menu__box {
   width: 13rem;
-  max-width: calc(100% - 2 * var(--inset));
-  padding: 0.5rem; /* --menu-box-dimension-padding */
-  border-radius: 1rem; /* --menu-box-dimension-radius-sm */
+  max-width: calc(100vw - 2 * var(--inset));
+  padding: 0.5rem;
+  border-radius: 1rem;
   background: var(--pill-bg);
   border: 1px solid var(--pill-border);
   backdrop-filter: blur(0.5rem) saturate(160%);
   -webkit-backdrop-filter: blur(0.5rem) saturate(160%);
 }
 /* Inner logo box — reference .app-logo-box */
-.name-pill span {
+.app-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35ch;
   width: 100%;
   height: 6.875rem;
   padding-inline: 1rem;
   border-radius: 0.5rem;
   overflow: hidden;
   white-space: nowrap;
-  font-weight: 600; /* --app-font-weight-text-strong */
+  font: inherit;
+  font-weight: 600;
   letter-spacing: 0;
+  text-transform: lowercase;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
   transition: color 0.3s var(--ease);
 }
 
+/* MagicMenu floating content — matches objectanimal.com menu-box tokens */
+.app-menu__content {
+  width: 13rem;
+  max-width: calc(100vw - 2 * var(--inset));
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  backdrop-filter: blur(0.5rem) saturate(160%);
+  -webkit-backdrop-filter: blur(0.5rem) saturate(160%);
+  box-shadow: none;
+  z-index: 55;
+}
+.app-menu__content .magic-menu-content__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+/* Ghost menu items — reference menu-item tokens */
+.app-menu__content .magic-menu-item {
+  display: flex;
+  align-items: center;
+  height: 2.75rem;
+  padding-inline: 1rem;
+  border-radius: 0.5rem;
+  color: var(--ink-muted);
+  font-weight: 500;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.app-menu__content .magic-menu-item a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.app-menu__content .magic-menu-item:hover,
+.app-menu__content .magic-menu-item[data-active="true"] {
+  color: var(--ink);
+  background: var(--menu-item-hover);
+}
+
+/* MagicMenu content transition */
+.magic-menu-content--fade-enter-active,
+.magic-menu-content--fade-leave-active {
+  transition: opacity 0.2s var(--ease);
+}
+.magic-menu-content--fade-enter-from,
+.magic-menu-content--fade-leave-to {
+  opacity: 0;
+}
+
 @media (max-width: 640px) {
-  .name-pill {
+  .app-menu__box {
     width: 10.25rem;
   }
-  .name-pill span {
+  .app-logo {
     height: 5.75rem;
   }
 }
@@ -111,8 +173,11 @@ a {
   position: fixed;
   top: var(--inset);
   right: var(--inset);
-  z-index: 50;
-  padding: 10px 16px;
+  z-index: 60;
+  padding: 0 1rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
   border-radius: 999px;
   border: 1px solid var(--pill-border);
   background: var(--pill-bg);
@@ -209,6 +274,30 @@ a {
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: lowercase;
+}
+
+/* =============================================================
+   MagicPlayer (MagicPlayerVideo) — fill the media box
+   ============================================================= */
+.magic-video,
+.magic-video .magic-player-provider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.magic-video .magic-player-provider {
+  --magic-player-provider-height: 100%;
+  --magic-player-provider-aspect-ratio: auto;
+  --magic-player-provider-background: transparent;
+}
+.magic-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* =============================================================
@@ -330,11 +419,16 @@ a {
    Footer — multi-column with small strong labels (reference footer)
    ============================================================= */
 .footer {
+  position: relative;
+  z-index: 30;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 2.5rem 5rem;
-  padding: 6rem 2.5rem 8rem;
+  margin-top: 4rem;
+  padding: 4rem 2.5rem 7rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
   font-size: 15px;
 }
 .footer__group {
@@ -395,4 +489,40 @@ a {
 }
 .statusbar__project {
   transition: opacity 0.3s var(--ease);
+}
+
+
+.description-section {
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  display: flex;
+  width: 100%;
+  padding: 0 8rem;
+  text-align: justify;
+  hyphens: auto;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.max-w-4xl {
+  max-width: var(--container-4xl);
+}
+
+.m-button {
+    height: 3rem;
+    align-items: center;
+    background: #000;
+    border-color: transparent;
+    border-radius: .625rem;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    padding: 0 2rem;
+    margin-top: 4rem;
 }
