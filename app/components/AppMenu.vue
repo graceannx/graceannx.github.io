@@ -16,6 +16,9 @@
               <a href="#gallery">work</a>
             </MagicMenuItem>
             <MagicMenuItem class="magic-menu-item">
+              <NuxtLink to="/concert">live</NuxtLink>
+            </MagicMenuItem>
+            <MagicMenuItem class="magic-menu-item">
               <a href="mailto:hello@yourname.com">contact</a>
             </MagicMenuItem>
             <MagicMenuItem class="magic-menu-item">

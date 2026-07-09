@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-01',
   devtools: { enabled: true },
 
+  // Project uses the Nuxt 4 directory layout (app/ + root-level public/).
+  // Opt in explicitly so `~`/`@` resolve to app/ on every machine & CI.
+  future: {
+    compatibilityVersion: 4,
+  },
+
   ssr: false,
 
   // MagicMenu + MagicPlayer (MagicPlayerVideo) from @maas/vue-equipment
