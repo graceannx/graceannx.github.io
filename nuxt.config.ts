@@ -3,6 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-01',
   devtools: { enabled: true },
 
+  ssr: false,
+
   // MagicMenu + MagicPlayer (MagicPlayerVideo) from @maas/vue-equipment
   modules: ['@maas/vue-equipment/nuxt'],
   vueEquipment: {
