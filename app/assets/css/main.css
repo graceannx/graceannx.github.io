@@ -105,15 +105,18 @@ a {
 
 /* MagicMenu floating content — matches objectanimal.com menu-box tokens */
 .app-menu__content {
-  width: 13rem;
-  max-width: calc(100vw - 2 * var(--inset));
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  background: var(--pill-bg);
-  border: 1px solid var(--pill-border);
-  backdrop-filter: blur(0.5rem) saturate(160%);
-  -webkit-backdrop-filter: blur(0.5rem) saturate(160%);
+  /* Outer teleport wrapper. The visible panel is the inner (floated) element,
+     so keep this transparent — floating-ui detaches the inner content from
+     here via position:absolute, which would leave an empty frosted box. */
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   box-shadow: none;
   z-index: 55;
 }
@@ -121,6 +124,18 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
+  width: 13rem;
+  max-width: calc(100vw - 2 * var(--inset));
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  backdrop-filter: blur(0.5rem) saturate(160%);
+  -webkit-backdrop-filter: blur(0.5rem) saturate(160%);
+}
+/* Hide the default float arrow — the box sits directly under the trigger */
+.app-menu__content .magic-menu-float__arrow {
+  display: none;
 }
 /* Ghost menu items — reference menu-item tokens */
 .app-menu__content .magic-menu-item {
@@ -564,16 +579,25 @@ a {
 }
 
 .concert-feed {
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
-  padding: 4rem 4rem 10rem;
-  max-width: var(--maxw);
-  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 4rem;
+  padding: 6rem 4rem 10rem;
 }
+/* Each row spans both columns; the card sits in column 1 (left) or 2 (right)
+   and consecutive rows interlock via a negative bottom margin. */
 .concert-feed__item {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+.concert-feed__card {
+  grid-column: 1;
   display: flex;
   flex-direction: column;
+}
+.concert-feed__item:nth-child(even) .concert-feed__card {
+  grid-column: 2;
 }
 .concert-feed__item .media {
   border: 1px solid var(--line);
@@ -587,13 +611,11 @@ a {
 }
 
 @media (min-width: 641px) {
-  .concert-feed__item:nth-child(even) {
-    align-self: flex-end;
-    width: 72%;
+  .concert-feed__item {
+    margin-bottom: -6rem;
   }
-  .concert-feed__item:nth-child(3n) {
-    align-self: flex-start;
-    width: 84%;
+  .concert-feed__item:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -602,12 +624,13 @@ a {
     padding: calc(var(--inset) + 5.75rem + var(--gap)) var(--gap) 1.5rem;
   }
   .concert-feed {
-    gap: 3rem;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 3rem;
     padding: 2rem var(--gap) 8rem;
   }
-  .concert-feed__item:nth-child(even),
-  .concert-feed__item:nth-child(3n) {
-    width: 100%;
-    align-self: stretch;
+  .concert-feed__item,
+  .concert-feed__item:nth-child(even) .concert-feed__card {
+    grid-column: 1;
   }
 }

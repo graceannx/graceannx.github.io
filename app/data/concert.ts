@@ -7,22 +7,18 @@ export interface ConcertPhoto {
   name?: string
   /** Optional media path. Leave empty for a placeholder. */
   src?: string
+  /** "photo" | "video" (defaults to photo). Videos use MagicPlayer. */
+  type?: 'photo' | 'video'
 }
 
 export const CONCERT_HEADER = {
-  title: 'live',
-  subtitle: 'concerts & moving image',
-  intro:
-    'A running series shot front-of-house and backstage — light, motion and noise.',
+  title: 'concert photography',
 }
 
 export const concertPhotos: ConcertPhoto[] = [
-  { title: 'opening set', aspect: '3 / 2' },
-  { title: 'strobe', aspect: '4 / 5' },
-  { title: 'crowd surge', aspect: '16 / 9' },
-  { title: 'the pit', aspect: '3 / 4' },
-  { title: 'encore', aspect: '3 / 2' },
-  { title: 'house lights', aspect: '16 / 9' },
-  { title: 'backstage', aspect: '4 / 5' },
-  { title: 'last note', aspect: '3 / 2' },
+{ title: 'sustainably developed super8 hand scanned', aspect: '3 / 2', type: 'video', src: 'https://stream.mux.com/ZDqyneaUSyAniGKTq6mEr1LEMdR63z02GngyWjyAJhp4.m3u8' },
+{ title: 'magnus westwell 35mm', aspect: '16 / 9', type: 'photo', src: '/media/concert/197850030036.JPEG' },  
+{ title: 'corto.alto hand developed 35mm', aspect: '16 / 9', type: 'photo', src: '/media/concert/IMG_7632.JPEG' },
+{ title: 'saya grey digital', aspect: '3 / 4', type: 'photo', src: '/media/concert/580491625_18546999451005282_7200575144633889821_n.jpg' },
+{ title: 'bina studio bts 35mm', aspect: '4 / 5', type: 'photo', src: '/media/concert/IMG_6695.JPEG' },
 ]

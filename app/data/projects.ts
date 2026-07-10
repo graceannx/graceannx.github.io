@@ -22,7 +22,7 @@ export const projects: Project[] = [
     type: 'video',
     src: 'https://stream.mux.com/5U11IitWbhtIYEC2yZ2m1R02EaBpr00yZV00V11Sn0200LwQ/capped-1080p.mp4',
   },
-  { title: 'project two', aspect: '16 / 9' },
+  { title: 'project two', aspect: '16 / 9', type:'video' },
   { title: 'project three', aspect: '4 / 5' },
   { title: 'project four', aspect: '16 / 9' },
   { title: 'project five', aspect: '16 / 9' },
