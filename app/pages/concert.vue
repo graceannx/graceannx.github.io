@@ -15,12 +15,13 @@
           v-for="(photo, i) in concertPhotos"
           :key="i"
           class="concert-feed__item"
+          :data-parallax="photo.type === 'video' ? undefined : (0.05 + (i % 3) * 0.03).toString()"
+          data-parallax-target=".concert-feed__card"
         >
           <div class="concert-feed__card">
             <figure
               class="media reveal"
               :data-project="photo.title"
-              :data-parallax="photo.type === 'video' ? undefined : (0.1 + (i % 3) * 0.04).toString()"
               :style="{ aspectRatio: photo.aspect }"
             >
               <MagicVideo

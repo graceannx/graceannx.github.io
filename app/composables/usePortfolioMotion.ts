@@ -80,13 +80,22 @@ export function usePortfolioMotion() {
 
   function scan() {
     parallaxNodes = [...document.querySelectorAll<HTMLElement>('[data-parallax]')].map(
-      (el) => ({
-        wrap: el,
-        media: el.querySelector<HTMLElement>('img, video, .media__placeholder'),
-        strength: parseFloat(el.dataset.parallax || '') || 0.1,
-        current: 0,
-        target: 0,
-      })
+      (el) => {
+        // By default we translate the inner media (internal image parallax).
+        // With `data-parallax-target`, translate a whole child element instead
+        // (e.g. the card) so the image stays put and the block drifts as one.
+        const targetSel = el.dataset.parallaxTarget
+        const media = targetSel
+          ? el.querySelector<HTMLElement>(targetSel)
+          : el.querySelector<HTMLElement>('img, video, .media__placeholder')
+        return {
+          wrap: el,
+          media,
+          strength: parseFloat(el.dataset.parallax || '') || 0.1,
+          current: 0,
+          target: 0,
+        }
+      }
     )
     projectFigures = [...document.querySelectorAll<HTMLElement>('[data-project]')]
 

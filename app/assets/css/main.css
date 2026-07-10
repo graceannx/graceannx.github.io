@@ -225,7 +225,6 @@ a {
 .hero .feature .media {
   flex: 1;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
 }
 
 @media (min-width: 641px) {
@@ -243,8 +242,6 @@ a {
 .media {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: var(--radius);
   background: var(--surface-2);
 }
 
@@ -595,13 +592,10 @@ a {
   grid-column: 1;
   display: flex;
   flex-direction: column;
+  will-change: transform;
 }
 .concert-feed__item:nth-child(even) .concert-feed__card {
   grid-column: 2;
-}
-.concert-feed__item .media {
-  border: 1px solid var(--line);
-  transition: border-color 0.15s var(--ease);
 }
 .concert-feed__item:hover .media {
   border-color: var(--ink-muted);

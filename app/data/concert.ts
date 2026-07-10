@@ -16,7 +16,7 @@ export const CONCERT_HEADER = {
 }
 
 export const concertPhotos: ConcertPhoto[] = [
-{ title: 'sustainably developed super8 hand scanned', aspect: '3 / 2', type: 'video', src: 'https://stream.mux.com/ZDqyneaUSyAniGKTq6mEr1LEMdR63z02GngyWjyAJhp4.m3u8' },
+{ title: 'sustainably developed super8 hand scanned', aspect: '16 / 9', type: 'video', src: 'https://stream.mux.com/ZDqyneaUSyAniGKTq6mEr1LEMdR63z02GngyWjyAJhp4.m3u8' },
 { title: 'magnus westwell 35mm', aspect: '16 / 9', type: 'photo', src: '/media/concert/197850030036.JPEG' },  
 { title: 'corto.alto hand developed 35mm', aspect: '16 / 9', type: 'photo', src: '/media/concert/IMG_7632.JPEG' },
 { title: 'saya grey digital', aspect: '3 / 4', type: 'photo', src: '/media/concert/580491625_18546999451005282_7200575144633889821_n.jpg' },
